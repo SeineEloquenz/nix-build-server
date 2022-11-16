@@ -4,6 +4,7 @@
     ./gc.nix
     ./nix-serve.nix
     ./build.nix
+    ./update.nix
   ];
 
   home = {
