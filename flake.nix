@@ -23,7 +23,7 @@
     lib = nixpkgs.lib;
 
   in {
-    defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
+    packages.${system}.default = home-manager.defaultPackage.${system};
 
     homeConfigurations = {
       alexa = home-manager.lib.homeManagerConfiguration {
