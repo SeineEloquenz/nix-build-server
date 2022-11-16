@@ -48,7 +48,7 @@ in {
           Description = "Continuously build all systems";
         };
         Timer = {
-          OnCalendar = "*-*-* 06:00:00";
+          OnCalendar = "*:0/15";
           Unit = "build.service";
         };
         Install = {
