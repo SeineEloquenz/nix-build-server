@@ -24,7 +24,7 @@ in {
 
           Restart = "always";
           RestartSec = "5";
-          Environment = "NIX_SECRET_KEY_FILE=~/cache.sk";
+          Environment = "NIX_SECRET_KEY_FILE=${config.home.homeDirectory}/cache.sk";
           ExecStart = "${nix-serve}/bin/nix-serve";
           KillMode = "process";
         };
