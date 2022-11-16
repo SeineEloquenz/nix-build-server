@@ -1,6 +1,0 @@
-[Unit]
-Description= nix-cache garbage collection
-
-[Service]
-Type=oneshot
-ExecStart=nix-store --gc
