@@ -1,38 +1,29 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 let
 
   nix = pkgs.nix;
-  buildWorkingDir = "${home.homeDirectory}/build";
-  buildScript = "${home.homeDirectory}/build.sh";
-  configRepo = "git@github.com:SeineEloquenz/nixos-config";
+  buildWorkingDir = "${config.home.homeDirectory}/build";
+  buildScript = "${config.home.homeDirectory}/build.sh";
 
 in {
 
-  home.packages = [
+  home.packages = with pkgs; [
     bash
     git
-    ls
   ];
 
   home.file."build.sh" = {
     executable = true;
     text = ''
       #!/bin/bash
-      pushd ./nixos-config
+      pushd ${buildWorkingDir}/nixos-config
       git pull
       hosts=$(ls ./hosts)
       for host in $hosts
       do
-        nix --extra-experimental-features nix-command --extra-experimental-features flakes build .\#nixosConfigurations.$host.config.system.build.toplevel
+        nix build .\#nixosConfigurations.$host.config.system.build.toplevel
       done
-      popd
-    '';
-    onChange = ''
-      pushd ${buildWorkingDir}
-      if [[ ! -d "nixos-config" ]]; then
-        git clone ${configRepo} nixos-config
-      fi
       popd
     '';
   };
@@ -45,8 +36,8 @@ in {
         };
         Service = {
           Type = "oneshot";
-          WorkingDirectory = $buildWorkingDir;
-          ExecStart = $buildScript;
+          WorkingDirectory = "${buildWorkingDir}";
+          ExecStart = "${buildScript}";
         };
       };
     };
@@ -61,7 +52,7 @@ in {
           Unit = "build.service";
         };
         Install = {
-          WantedBy = "basic.target";
+          WantedBy = [ "basic.target" ];
         };
       };
     };

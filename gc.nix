@@ -23,7 +23,7 @@
           Unit = "gc.service";
         };
         Install = {
-          WantedBy = "basic.target";
+          WantedBy = [ "basic.target" ];
         };
       };
     };

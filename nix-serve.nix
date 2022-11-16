@@ -1,7 +1,6 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
-let
-  nix-serve = pkgs.nix-serve-ng;
+let nix-serve = pkgs.haskellPackages.nix-serve-ng;
 
 in {
 
@@ -18,20 +17,20 @@ in {
 
         Service = {
           Type = "simple";
-          WorkingDirectory = "${home.homeDirectory}";
+          WorkingDirectory = "${config.home.homeDirectory}";
           IPAccounting = "true";
 
           ProtectSystem = "full";
 
           Restart = "always";
-          RestartSec = 5;
-          Environment ="NIX_SECRET_KEY_FILE=~/cache.sk"
-          ExecStart = "${nix-serve}/bin/nix-serve"
+          RestartSec = "5";
+          Environment = "NIX_SECRET_KEY_FILE=~/cache.sk";
+          ExecStart = "${nix-serve}/bin/nix-serve";
           KillMode = "process";
         };
 
         Install = {
-          WantedBy = "multi-user.target";
+          WantedBy = [ "multi-user.target" ];
         };
       };
     };
