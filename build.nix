@@ -22,7 +22,7 @@ in {
       hosts=$(ls ./hosts)
       for host in $hosts
       do
-        nix build .\#nixosConfigurations.$host.config.system.build.toplevel
+        ${pkgs.nix}/bin/nix build .\#nixosConfigurations.$host.config.system.build.toplevel
       done
       popd
     '';
