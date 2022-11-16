@@ -1,0 +1,9 @@
+[Unit]
+Description=Builds all systems nightly
+
+[Timer]
+OnCalendar=*-*-01 06:00:00
+Unit=build.service
+
+[Install]
+WantedBy=basic.target

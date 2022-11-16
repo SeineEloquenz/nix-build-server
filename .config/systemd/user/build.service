@@ -1,0 +1,8 @@
+[Unit]
+Description= Build all nix systems
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/alexa/build
+ExecStart=/home/alexa/build/build.sh
+Environment=PATH=/home/alexa/.nix-profile/bin:/usr/local/bin:/usr/bin:/bin
