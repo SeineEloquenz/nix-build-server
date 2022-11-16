@@ -1,0 +1,31 @@
+name: Update
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  update-nixpkgs:
+    name: Update Flake inputs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install Nix
+        uses: cachix/install-nix-action@v13
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Update Flake inputs
+        run: nix flake lock --update-input nixpkgs
+
+      - name: Commit and push changes
+        uses: EndBug/add-and-commit@v7
+        with:
+          message: Update Nixpkgs
+          default_author: github_actions
